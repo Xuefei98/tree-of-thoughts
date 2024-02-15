@@ -48,6 +48,7 @@ class LlamacppLanguageModel(AbstractLanguageModel):
         self.strategy = strategy
         self.evaluation_strategy = evaluation_strategy
         self.ReAct_prompt = ""
+        self.model_name=model_name
         # this generally should not be enabled
         if enable_ReAct_prompting:
             self.ReAct_prompt = "Write down your observations in format 'Observation:xxxx', then write down your thoughts in format 'Thoughts:xxxx'."
@@ -82,7 +83,7 @@ class LlamacppLanguageModel(AbstractLanguageModel):
         self, prompt, n_predict=2048, temperature=0.1, top_k=200, top_p=0.99
     ):
         enhanced_prompt = prompt + self.ReAct_prompt
-        pre_prompt, post_prompt = PROMPT_ENHANCEMENT_MAP.get(model_name, ("", ""))
+        pre_prompt, post_prompt = PROMPT_ENHANCEMENT_MAP.get(self.model_name, ("", ""))
 
         # Append the pre-prompt and post-prompt text to the prompt
         enhanced_prompt = pre_prompt + enhanced_prompt + post_prompt
